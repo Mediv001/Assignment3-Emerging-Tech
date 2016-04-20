@@ -10,6 +10,7 @@ import android.view.View;
  * Created by english on 20/04/2016.
  */
 public class CustomView extends View{
+
     public CustomView(Context c) {
         super(c);
         init();
