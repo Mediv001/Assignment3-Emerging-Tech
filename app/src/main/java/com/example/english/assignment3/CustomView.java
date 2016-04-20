@@ -5,11 +5,13 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 /**
  * Created by english on 20/04/2016.
  */
-public class CustomView extends View{
+public class CustomView extends LinearLayout {
 
     public CustomView(Context c) {
         super(c);
@@ -27,6 +29,7 @@ public class CustomView extends View{
     }
 
     private void init() {
+        inflate(this.getContext(), R.layout.customviewxml, this);
     }
 
     public void onDraw(Canvas canvas) {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 public class MainActivity extends Activity {
@@ -14,16 +15,15 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        final Button digimon = (Button)findViewById(R.id.start);
-        digimon.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_main);
+        final Button start = (Button)findViewById(R.id.start);
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(digimon.getText().toString() == "STOP") {
-                    digimon.setText("START");
-                }
-                else {
-                    digimon.setText("STOP");
+                if(start.getText().toString() == "STOP"){
+                    start.setText("START");
+                }else{
+                    start.setText("STOP");
                 }
             }
         });
@@ -54,6 +54,7 @@ public class MainActivity extends Activity {
     private final class MyLocation implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
+            
         }
 
         @Override
