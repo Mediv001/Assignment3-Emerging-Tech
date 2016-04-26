@@ -17,9 +17,12 @@ import java.util.ArrayList;
  */
 public class GraphView extends View {
 
-    ArrayList<Integer> speed;
-    int width;
+    ArrayList<Float> speed;
+    float width;
     Paint color;
+    int index;
+    int add;
+    Paint white;
 
     public GraphView(Context c) {
         super(c);
@@ -50,20 +53,25 @@ public class GraphView extends View {
     }
 
     private void init() {
-        width = getMeasuredWidth();
-        color = new Paint();
-        color.setColor(Color.BLACK);
+        white = new Paint();
+        white.setColor(Color.WHITE);
         speed = new ArrayList<>();
     }
 
     public void onDraw(Canvas canvas) {
-        if(speed.size() > 1) {
-            canvas.drawLine(0, 300, 200, 100-speed.get(speed.size()-1), color);
+        width = canvas.getWidth();
+        float space = width;
+        for(int i = 0; i < 6; i++) {
+            canvas.drawLine(0, space, width, space, white);
+            space -= width / 6f;
         }
     }
 
     public void add(Location p){
-        speed.add((int)p.getSpeed()*3,6);
+        speed.add(p.getSpeed()*3.6f);
+        if(speed.size() > 100){
+            speed.remove(0);
+        }
         invalidate();
     }
 

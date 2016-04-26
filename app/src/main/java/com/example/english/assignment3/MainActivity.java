@@ -43,11 +43,20 @@ public class MainActivity extends Activity {
         currentspeed = (TextView)findViewById(R.id.currentspeed);
         overalltime = (TextView)findViewById(R.id.overalltime);
 
-        locationProvider = LocationManager.NETWORK_PROVIDER;
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        locationProvider = LocationManager.GPS_PROVIDER;
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (location != null) {
+                    if (list.size() < 101) {
+                        list.add(location);
+                    } else {
+                        list.remove(0);
+                        list.add(location);
+                    }
+                    //graph.add(location);
+                }
             }
 
             @Override
@@ -64,7 +73,6 @@ public class MainActivity extends Activity {
         };
 
         final Button start = (Button) findViewById(R.id.start);
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,24 +86,7 @@ public class MainActivity extends Activity {
                 }
                 traced = !traced;
                 if (traced) {
-                    Timer time = new Timer();
-                    time.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                        }
-                    },1,1);
-                    Location l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    //overalltime.setText("Overall Time: " +  + "s");
-                    if (l != null) {
-                        if(list.size() < 101) {
-                            list.add(l);
-                        }else{
-                            list.remove(0);
-                            list.add(l);
-                        }
-                        graph.add(l);
-                    }
-                    locationManager.requestLocationUpdates(locationProvider, 5, 0, locationListener);
+                    locationManager.requestLocationUpdates(locationProvider, 1000, 0, locationListener);
                 }
             }
         });
