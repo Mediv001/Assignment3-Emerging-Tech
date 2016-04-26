@@ -4,16 +4,43 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="test"
-        android:id="@+id/text"
-        android:layout_marginLeft="100dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="GPS inactive"
+        android:id="@+id/tracer"
+        android:layout_marginTop="55dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Current Speed: N/A"
+        android:id="@+id/currentspeed"
+        android:layout_marginTop="75dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Average Speed: N/A"
+        android:id="@+id/averagespeed"
+        android:layout_marginTop="115dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Overall Time: 0s"
+        android:id="@+id/overalltime"
+        android:layout_marginTop="95dp"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/start"
         android:text="START"/>
+
+    <com.example.english.assignment3.GraphView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_marginTop="135dp"
+        android:id="@+id/graph"/>
 
 </merge>

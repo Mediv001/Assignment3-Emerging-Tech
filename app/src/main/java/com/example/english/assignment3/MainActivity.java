@@ -10,12 +10,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 
@@ -24,20 +24,30 @@ public class MainActivity extends Activity {
     TextView tx;
     String locationProvider;
     LocationListener locationListener;
+    TextView averagespeed;
+    TextView currentspeed;
+    TextView overalltime;
+    GraphView graph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ArrayList<Location> list = new ArrayList<>();
-        final int i = 0;
         traced = false;
+
+        graph = (GraphView) findViewById(R.id.graph);
+
+        tx = (TextView) findViewById(R.id.tracer);
+        averagespeed = (TextView)findViewById(R.id.averagespeed);
+        currentspeed = (TextView)findViewById(R.id.currentspeed);
+        overalltime = (TextView)findViewById(R.id.overalltime);
+
         locationProvider = LocationManager.NETWORK_PROVIDER;
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                tx.setText("lat, long: " + location.getLatitude() + ", " + location.getLongitude());
             }
 
             @Override
@@ -52,22 +62,30 @@ public class MainActivity extends Activity {
             public void onStatusChanged(String provider, int status, Bundle extras) {
             }
         };
+
         final Button start = (Button) findViewById(R.id.start);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (start.getText().toString() == "STOP") {
                     start.setText("START");
+                    tx.setText("GPS inactive");
                 } else {
                     start.setText("STOP");
+                    tx.setText("GPS active");
                 }
                 traced = !traced;
-                Log.d("actived = ", "" + traced);
                 if (traced) {
-                    tx = (TextView) findViewById(R.id.text);
+                    Timer time = new Timer();
+                    time.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                        }
+                    },1,1);
                     Location l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
+                    //overalltime.setText("Overall Time: " +  + "s");
                     if (l != null) {
                         if(list.size() < 101) {
                             list.add(l);
@@ -75,8 +93,7 @@ public class MainActivity extends Activity {
                             list.remove(0);
                             list.add(l);
                         }
-                        double longitude = l.getLongitude();
-                        double latitude = l.getLatitude();
+                        graph.add(l);
                     }
                     locationManager.requestLocationUpdates(locationProvider, 5, 0, locationListener);
                 }
