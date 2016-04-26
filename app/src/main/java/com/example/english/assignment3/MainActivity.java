@@ -55,7 +55,8 @@ public class MainActivity extends Activity {
                         list.remove(0);
                         list.add(location);
                     }
-                    //graph.add(location);
+                    Log.d("LOCATION", "" + location);
+                    graph.add(location);
                 }
             }
 

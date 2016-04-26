@@ -19,10 +19,11 @@ public class GraphView extends View {
 
     ArrayList<Float> speed;
     float width;
-    Paint color;
-    int index;
-    int add;
+    float espace;
     Paint white;
+    float departx;
+    float departy;
+    Paint green;
 
     public GraphView(Context c) {
         super(c);
@@ -56,15 +57,32 @@ public class GraphView extends View {
         white = new Paint();
         white.setColor(Color.WHITE);
         speed = new ArrayList<>();
+        green = new Paint();
+        green.setColor(Color.GREEN);
     }
 
     public void onDraw(Canvas canvas) {
         width = canvas.getWidth();
+        espace = width/6f;
         float space = width;
         for(int i = 0; i < 6; i++) {
             canvas.drawLine(0, space, width, space, white);
-            space -= width / 6f;
+            space -= espace;
         }
+        if(speed.size() < 100) {
+            departx = 0;
+            departy = width;
+        }else{
+            departx = 0;
+            departy = width - speed.get(0)/10 * espace;
+        }
+        for(int i = 0; i < speed.size(); i++){
+            canvas.drawLine(departx, departy, departx + width/100f, width - speed.get(i)/10 * espace, green);
+            departx += width/100f;
+            departy = width - speed.get(i)/10 * espace;
+
+        }
+        invalidate();
     }
 
     public void add(Location p){
