@@ -28,6 +28,8 @@ public class MainActivity extends Activity {
     TextView currentspeed;
     TextView overalltime;
     GraphView graph;
+    int cout;
+    Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +50,18 @@ public class MainActivity extends Activity {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                if (location != null) {
+                if (location != null && traced) {
                     if (list.size() < 101) {
                         list.add(location);
                     } else {
                         list.remove(0);
                         list.add(location);
                     }
-                    Log.d("LOCATION", "" + location);
                     graph.add(location);
+                    if(traced) {
+                        currentspeed.setText("Current Speed: " + location.getSpeed() * 3.6f + "km/h");
+                        averagespeed.setText("Average Speed: " + graph.average() + "km/h");
+                    }
                 }
             }
 
@@ -86,11 +91,33 @@ public class MainActivity extends Activity {
                     tx.setText("GPS active");
                 }
                 traced = !traced;
+                chrono();
                 if (traced) {
                     locationManager.requestLocationUpdates(locationProvider, 1000, 0, locationListener);
                 }
             }
         });
+    }
+
+    public void chrono(){
+        if(traced) {
+            cout = 0;
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            cout++;
+                            overalltime.setText("Overall Time: " + cout + "s");
+                        }
+                    });
+                }
+            }, 0, 1000);
+        }else{
+            timer.cancel();
+        }
     }
 
     @Override

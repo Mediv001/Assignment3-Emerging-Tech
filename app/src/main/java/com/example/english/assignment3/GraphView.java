@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.location.Location;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -95,5 +94,14 @@ public class GraphView extends View {
 
     public boolean onTouchEvent(MotionEvent event) {
         return super.onTouchEvent(event);
+    }
+
+    public float average(){
+        float len = speed.size();
+        float count = 0;
+        for(int i = 0; i < speed.size(); i++){
+            count += speed.get(i);
+        }
+        return count/len;
     }
 }
