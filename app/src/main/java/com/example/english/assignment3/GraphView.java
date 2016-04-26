@@ -20,7 +20,6 @@ public class GraphView extends View {
     ArrayList<Integer> speed;
     int width;
     Paint color;
-    int valuespeed;
 
     public GraphView(Context c) {
         super(c);
@@ -54,10 +53,13 @@ public class GraphView extends View {
         width = getMeasuredWidth();
         color = new Paint();
         color.setColor(Color.BLACK);
+        speed = new ArrayList<>();
     }
 
     public void onDraw(Canvas canvas) {
-        canvas.drawLine(0,300,200,100,color);
+        if(speed.size() > 1) {
+            canvas.drawLine(0, 300, 200, 100-speed.get(speed.size()-1), color);
+        }
     }
 
     public void add(Location p){
